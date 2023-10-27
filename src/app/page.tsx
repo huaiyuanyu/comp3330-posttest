@@ -1,9 +1,15 @@
 import Image from 'next/image'
 
-export default function Home() {
+import { db } from '@/db'
+import {posts as postsTable } from '@/db/schema/posts'
+
+export default async function Home() {
+
+  const posts = await db.select().from(postsTable)
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      
+    <main>
+      {posts.map(post => <p key={post.id}>{post.content}</p>)}
     </main>
   )
 }
